@@ -1286,35 +1286,71 @@ namespace System {
 
             return result;
         }
-    
-    
+
+
         // Removes a string of characters from the ends of this string.
         [Pure]
-        public String Trim(params char[] trimChars) {
-            if (null==trimChars || trimChars.Length == 0) {
+        public String Trim(params char[] trimChars)
+        {
+            if (null == trimChars || trimChars.Length == 0)
+            {
                 return TrimHelper(TrimBoth);
             }
-            return TrimHelper(trimChars,TrimBoth);
+            return TrimHelper(trimChars, TrimBoth);
         }
-    
+
+        // Removes a string of characters from the ends of this string.
+        [Pure]
+        public String Trim(char trimChar)
+        {
+            if (0 == trimChar)
+            {
+                return TrimHelper(TrimBoth);
+            }
+            return TrimHelper(trimChar, TrimBoth);
+        }
+
         // Removes a string of characters from the beginning of this string.
-        public String TrimStart(params char[] trimChars) {
-            if (null==trimChars || trimChars.Length == 0) {
+        public String TrimStart(params char[] trimChars)
+        {
+            if (null == trimChars || trimChars.Length == 0)
+            {
                 return TrimHelper(TrimHead);
             }
-            return TrimHelper(trimChars,TrimHead);
+            return TrimHelper(trimChars, TrimHead);
         }
-    
-    
+
+        // Removes a string of characters from the beginning of this string.
+        public String TrimStart(char trimChar)
+        {
+            if (0 == trimChar)
+            {
+                return TrimHelper(TrimHead);
+            }
+            return TrimHelper(trimChar, TrimHead);
+        }
+
+
         // Removes a string of characters from the end of this string.
-        public String TrimEnd(params char[] trimChars) {
-            if (null==trimChars || trimChars.Length == 0) {
+        public String TrimEnd(params char[] trimChars)
+        {
+            if (null == trimChars || trimChars.Length == 0)
+            {
                 return TrimHelper(TrimTail);
             }
-            return TrimHelper(trimChars,TrimTail);
+            return TrimHelper(trimChars, TrimTail);
         }
-    
-    
+
+        // Removes a string of characters from the end of this string.
+        public String TrimEnd(char trimChar)
+        {
+            if (0 == trimChar)
+            {
+                return TrimHelper(TrimTail);
+            }
+            return TrimHelper(trimChar, TrimTail);
+        }
+
         // Creates a new string with the characters copied in from ptr. If
         // ptr is null, a 0-length string (like String.Empty) is returned.
         //
@@ -2727,39 +2763,80 @@ namespace System {
 
             return CreateTrimmedString(start, end);
         }
-    
-    
+
+
         [System.Security.SecuritySafeCritical]  // auto-generated
-        private String TrimHelper(char[] trimChars, int trimType) {
+        private String TrimHelper(char[] trimChars, int trimType)
+        {
             //end will point to the first non-trimmed character on the right
             //start will point to the first non-trimmed character on the Left
-            int end = this.Length-1;
-            int start=0;
+            int end = this.Length - 1;
+            int start = 0;
 
             //Trim specified characters.
-            if (trimType !=TrimTail)  {
-                for (start=0; start < this.Length; start++) {
+            if (trimType != TrimTail)
+            {
+                for (start = 0; start < this.Length; start++)
+                {
                     int i = 0;
                     char ch = this[start];
-                    for( i = 0; i < trimChars.Length; i++) {
-                        if( trimChars[i] == ch) break;
+                    for (i = 0; i < trimChars.Length; i++)
+                    {
+                        if (trimChars[i] == ch) break;
                     }
-                    if( i == trimChars.Length) { // the character is not white space
-                        break;  
+                    if (i == trimChars.Length)
+                    { // the character is not white space
+                        break;
                     }
                 }
             }
-            
-            if (trimType !=TrimHead) {
-                for (end= Length -1; end >= start;  end--) {
-                    int i = 0;    
-                    char ch = this[end];                    
-                    for(i = 0; i < trimChars.Length; i++) {
-                        if( trimChars[i] == ch) break;
+
+            if (trimType != TrimHead)
+            {
+                for (end = Length - 1; end >= start; end--)
+                {
+                    int i = 0;
+                    char ch = this[end];
+                    for (i = 0; i < trimChars.Length; i++)
+                    {
+                        if (trimChars[i] == ch) break;
                     }
-                    if( i == trimChars.Length) { // the character is not white space
-                        break;  
-                    }                    
+                    if (i == trimChars.Length)
+                    { // the character is not white space
+                        break;
+                    }
+                }
+            }
+
+            return CreateTrimmedString(start, end);
+        }
+
+        [System.Security.SecuritySafeCritical]  // auto-generated
+        private String TrimHelper(char trimChar, int trimType)
+        {
+            //end will point to the first non-trimmed character on the right
+            //start will point to the first non-trimmed character on the Left
+            int end = this.Length - 1;
+            int start = 0;
+
+            //Trim specified characters.
+            if (trimType != TrimTail)
+            {
+                for (start = 0; start < this.Length; start++)
+                {
+                    //int i = 0;
+                    char ch = this[start];
+                    if (trimChar != ch) break;
+                 }
+            }
+
+            if (trimType != TrimHead)
+            {
+                for (end = Length - 1; end >= start; end--)
+                {
+                   // int i = 0;
+                    char ch = this[end];
+                    if (trimChar != ch) break;
                 }
             }
 
